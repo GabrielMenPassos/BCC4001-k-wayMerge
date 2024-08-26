@@ -1,20 +1,21 @@
 #pragma once
 
-#include "../big_file/big_file.h"
+#include "../BigFile/BigFile.h"
 #include <cstdio>
 #include <vector>
 
-class BufferEntrada {
+class EntryBuffer
+{
 public:
-    BufferEntrada(const char* nome_arquivo, size_t num_registros);
-    ~BufferEntrada();
-    
+    EntryBuffer(const char *nome_arquivo, size_t num_registros);
+    ~EntryBuffer();
+
     ITEM_VENDA proximo();
     ITEM_VENDA consumir();
     bool vazio();
 
 private:
-    FILE* arquivo;
+    FILE *arquivo;
     std::vector<ITEM_VENDA> buffer;
     size_t posicao_atual;
     size_t tamanho_buffer;

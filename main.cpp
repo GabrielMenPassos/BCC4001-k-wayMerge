@@ -1,62 +1,43 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include "./big_file/big_file.h"
-#include "./ordenacaoExterna/ordenacao.h"
-#include "./big_file/big_file.cpp"
-#include "./ordenacaoExterna/ordenacao.cpp"
+#include "./BigFile/BigFile.h"
+#include "./ExternalSorting/Sorting.h"
+#include "./BigFile/BigFile.cpp"
+#include "./ExternalSorting/Sorting.cpp"
 
 using namespace std;
 
-int main(int argc, char** argv) {
-    unsigned long int qtdRegistros;
-    unsigned long int maximoMemoria;
-    unsigned long int tamBufferSaida;
+int main(int argc, char **argv)
+{
+    unsigned long int entriesAmount;
+    unsigned long int memoryLimit;
+    unsigned long int outBufferSize;
     int div;
-    clock_t tempo;
+    clock_t time;
 
-    if (argc != 4) {
-        qtdRegistros = 512000;
-        maximoMemoria = 67108864;
-        tamBufferSaida = maximoMemoria / 2;
-    } else {
-        qtdRegistros = static_cast<unsigned long int>(atoi(argv[1]));
-        maximoMemoria = static_cast<unsigned long int>(atoi(argv[2]));
+    if (argc != 4)
+    {
+        entriesAmount = 512000;
+        memoryLimit = 67108864;
+        outBufferSize = memoryLimit / 2;
+    }
+    else
+    {
+        entriesAmount = static_cast<unsigned long int>(atoi(argv[1]));
+        memoryLimit = static_cast<unsigned long int>(atoi(argv[2]));
         div = atoi(argv[3]);
-        tamBufferSaida = maximoMemoria / div;
+        outBufferSize = memoryLimit / div;
     }
 
-    cout << "----------------------------------------------\n";
-    cout << "-               INICIANDO                    -\n";
-    cout << "----------------------------------------------\n\n";
+    array_generator("teste.dat", entriesAmount, 42);
+    cout << "Arquivo de teste gerado\n";
 
-    cout << "[1]: Gerando arquivo de dados 'teste.dat'...\n";
-    gerar_array_iv("teste.dat", qtdRegistros, 42);
+    time = clock();
+    ordenacao_externa("teste.dat", memoryLimit, outBufferSize, "saida");
+    time = clock() - time;
 
-    cout << "[2]: Executando ordenação externa...\n";
-    cout << "   - Configurações:\n";
-    cout << "      > Quantidade de registros: " << qtdRegistros << endl;
-    cout << "      > Memória máxima: " << maximoMemoria << " bytes\n";
-    cout << "      > Tamanho do buffer de saída: " << tamBufferSaida << " bytes\n";
-    
-    tempo = clock();
-    ordenacao_externa("teste.dat", maximoMemoria, tamBufferSaida, "saida");
-    tempo = clock() - tempo;
-
-    cout << "\n[3]: Ordenação finalizada! Verificando integridade...\n";
-
-    int resposta = isSaidaOrdenada("saida");
-    cout << "\n----------------------------------------------\n";
-    if (resposta) {
-        cout << "- Resultado: O arquivo 'saida' está ordenado -\n";
-    } else {
-        cout << "- Resultado: O arquivo 'saida' NÃO está ordenado -\n";
-    }
-    cout << "----------------------------------------------\n";
-
-    cout << "\nTempo total: " << static_cast<float>(tempo) / CLOCKS_PER_SEC << " segundos\n";
-
-    cout << "\n---------- FINALIZAÇÃO ----------\n";
+    cout << "\nTempo total da ordenação: " << static_cast<float>(time) / CLOCKS_PER_SEC << " segundos\n";
 
     return 0;
 }

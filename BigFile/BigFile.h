@@ -2,7 +2,8 @@
 
 #include <cstdint>
 
-struct ITEM_VENDA{
+struct ITEM_VENDA
+{
     uint32_t id;
     uint32_t id_venda;
     uint32_t data;
@@ -10,4 +11,4 @@ struct ITEM_VENDA{
     char desc[1008];
 };
 
-void gerar_array_iv(const char* arquivo_saida, unsigned int n_registros, int seed);
+void array_generator(const char *arquivo_saida, unsigned int n_registros, int seed);
