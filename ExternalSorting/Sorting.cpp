@@ -10,6 +10,9 @@
 #include "../entryBuffer/EntryBuffer.cpp"
 #include "../outputBuffer/OutputBuffer.cpp"
 
+// Realiza a intercalação k-vias de buffers de entrada em um buffer de saída.
+// Seleciona o menor elemento entre os buffers de entrada e o insere no buffer de saída.
+// Continua até que todos os buffers de entrada estejam vazios, e então despeja o conteúdo do buffer de saída no arquivo.
 void intercalacao_k_vias(std::vector<EntryBuffer *> &buffers_entrada, OutputBuffer &buffer_saida)
 {
     int qtd_buffers_vazios = 0;
@@ -46,6 +49,9 @@ void intercalacao_k_vias(std::vector<EntryBuffer *> &buffers_entrada, OutputBuff
     buffer_saida.despejar();
 }
 
+// Realiza a ordenação externa de um arquivo grande dividindo-o em partes menores.
+// Cada parte é ordenada individualmente e salva em arquivos temporários.
+// Em seguida, os arquivos temporários são intercalados para produzir o arquivo de saída ordenado.
 void ordenacao_externa(const char *entrada, size_t bytes_registros, size_t bytes_buffer_saida, const char *nome_saida)
 {
     FILE *arq = fopen(entrada, "rb");

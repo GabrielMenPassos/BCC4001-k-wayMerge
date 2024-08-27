@@ -6,6 +6,8 @@
 #include "BigFile.h"
 #include "../prandom.h"
 
+// Troca os valores de duas variáveis do tipo ITEM_VENDA.
+// Utiliza uma variável auxiliar para realizar a troca.
 static inline void handleChange(ITEM_VENDA &x, ITEM_VENDA &y)
 {
     ITEM_VENDA aux;
@@ -14,6 +16,8 @@ static inline void handleChange(ITEM_VENDA &x, ITEM_VENDA &y)
     y = aux;
 }
 
+// Embaralha os elementos de um array do tipo ITEM_VENDA.
+// O embaralhamento ocorre no intervalo entre as posições 'start' e 'end'.
 static void shuffle(ITEM_VENDA *v, int start, int end)
 {
     int i, j;
@@ -26,6 +30,9 @@ static void shuffle(ITEM_VENDA *v, int start, int end)
     }
 }
 
+// Gera um array de registros do tipo ITEM_VENDA e os salva em um arquivo binário.
+// O arquivo de saída é definido por 'outFile', o número de entradas por 'entriesNumber' e a semente de aleatoriedade por 'seed'.
+// Cada registro gerado contém um identificador, id de venda, desconto, data e uma descrição vazia.
 void array_generator(const char *outFile, unsigned int entriesNumber, int seed)
 {
     ITEM_VENDA *iv;
